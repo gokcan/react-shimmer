@@ -11,12 +11,13 @@ type Props = {
   onError?: (err: string) => void,
   onLoad?: (image: Image) => void,
   loadingIndicatorSource?: string,
+  delay?: number,
 }
 
 type State = {
   isLoading: boolean,
   src: string,
-  error?: string | boolean,
+  error?: string,
   width: number,
   height: number
 }
@@ -29,8 +30,24 @@ export default class ShimmerImage extends Component<Props, State> {
   };
 
   async componentWillMount() {
-    const { src } = this.props
-    this.setState({ isLoading: true })
+    const { src, delay } = this.props
+
+    /*
+     * To avoid instant loading 'flash' while downloading images with high-speed internet connection
+     * (or downloading smaller images that do not cause much loading-time),
+     * user may want to give delay before starting to show the shimmer loading indicator.
+     * However, given delay should be not more than 1 second. If it is just ignore it.
+     */
+    if (delay && delay > 0 && delay <= 1000) {
+      setTimeout(() => {
+        if (!this.state.src) {
+          this.setState({ isLoading: true })
+        }
+      }, delay)
+    } else {
+      this.setState({ isLoading: true })
+    }
+
     try {
       const uri = await this.loadImage(src)
       this.setState({ isLoading: false, src: uri })
@@ -40,13 +57,14 @@ export default class ShimmerImage extends Component<Props, State> {
   }
 
   loadImage = (uri) => {
+    const { onLoad } = this.props
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.src = uri
       img.onload = () => {
         this.setState({ width: img.width, height: img.height })
-        if (this.props.onLoad) {
-          this.props.onLoad(img)
+        if (onLoad) {
+          onLoad(img)
         }
         resolve(uri)
       }
