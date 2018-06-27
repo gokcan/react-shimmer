@@ -20,7 +20,10 @@ import ShimmerImage from 'react-shimmer'
 class Example extends Component {
   render () {
     return (
-      <ShimmerImage />
+      <ShimmerImage 
+        src={'./path/to/your/image'} // Local or remote image uri.
+        loadingIndicatorSource={'./path/to/your/loading-indicator'} // Not required. Default is a "shimmer animation".
+      />
     )
   }
 }
