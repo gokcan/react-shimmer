@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
-// import ShimmerImage from 'react-shimmer'
-import ShimmerImage from './Shimmer'
+import ShimmerImage from 'react-shimmer'
 
 export default class App extends Component {
   render () {
