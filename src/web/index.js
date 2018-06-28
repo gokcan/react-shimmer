@@ -4,10 +4,16 @@
  */
 
 import React, { Component } from 'react'
-import styles from './styles.css'
+import * as PropTypes from 'prop-types'
+import cl from './styles.css'
 
 type Props = {
   src: string,
+  color?: string,
+  duration?: number,
+  width: number,
+  height: number,
+  style?: React.CSSProperties,
   onError?: (err: string) => void,
   onLoad?: (image: Image) => void,
   loadingIndicatorSource?: string,
@@ -17,12 +23,23 @@ type Props = {
 type State = {
   isLoading: boolean,
   src: string,
-  error?: string,
-  width: number,
-  height: number
+  error?: string
 }
 
 export default class ShimmerImage extends Component<Props, State> {
+  static propTypes = {
+    src: PropTypes.string.isRequired,
+    color: PropTypes.string,
+    duration: PropTypes.number,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    style: PropTypes.object,
+    onError: PropTypes.func,
+    onLoad: PropTypes.func,
+    loadingIndicatorSource: PropTypes.string,
+    delay: PropTypes.number
+  }
+
   state: State = {
     isLoading: false,
     src: '',
@@ -30,8 +47,10 @@ export default class ShimmerImage extends Component<Props, State> {
   };
 
   async componentWillMount() {
-    const { src, delay } = this.props
-
+    const { src, delay, width, height } = this.props
+    if (!(width && height)) {
+      this.setState({ error: 'Height and Width props must be provided!' })
+    }
     /*
      * To avoid instant loading 'flash' while downloading images with high-speed internet connection
      * (or downloading smaller images that do not cause much loading-time),
@@ -49,20 +68,19 @@ export default class ShimmerImage extends Component<Props, State> {
     }
 
     try {
-      const uri = await this.loadImage(src)
+      const uri: string = await this.loadImage(src)
       this.setState({ isLoading: false, src: uri })
     } catch (error) {
       this.setState({ error, isLoading: false })
     }
   }
 
-  loadImage = (uri) => {
+  loadImage = (uri: string) => {
     const { onLoad } = this.props
     return new Promise((resolve, reject) => {
-      const img = new Image()
+      const img: Image = new Image()
       img.src = uri
       img.onload = () => {
-        this.setState({ width: img.width, height: img.height })
         if (onLoad) {
           onLoad(img)
         }
@@ -75,9 +93,19 @@ export default class ShimmerImage extends Component<Props, State> {
   }
 
   render() {
-    const { src, error, isLoading, width, height } = this.state
-    const { onError, loadingIndicatorSource, ...passed } = this.props
-    let passedProps = { ...passed, ...{ src, width, height } }
+    const { src, error, isLoading } = this.state
+    const { width, height, color, duration, style, onError, loadingIndicatorSource, ...passed } = this.props
+    const { ...passedStyles } = style
+    const passedProps = { ...passed, ...{ src, width, height } }
+    const backgroundSize = `${width * 10}px ${height}px`
+
+    const shimmerStyles = {
+      backgroundColor: color,
+      backgroundSize,
+      animationDuration: duration,
+      width: '100%',
+      height: '100%'
+    }
 
     if (error) {
       return onError ? onError(error) : null
@@ -85,11 +113,10 @@ export default class ShimmerImage extends Component<Props, State> {
       if (loadingIndicatorSource) {
         return <img src={loadingIndicatorSource} />
       } else {
-        return (<div className={styles.shimmer}>
-          <div className={styles.shimmerbg} /></div>)
+        return (<div className={cl.shimmer} style={{ ...shimmerStyles, ...{ height, width } }} />)
       }
     } else {
-      return <img {...passedProps} />
+      return <img {...passedProps} style={{ ...passedStyles }} />
     }
   }
 }
