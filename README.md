@@ -17,17 +17,37 @@ import React, { Component } from 'react'
 
 import ShimmerImage from 'react-shimmer'
 
-class Example extends Component {
+export default class App extends Component {
   render () {
     return (
-      <ShimmerImage 
-        src={'./path/to/your/image'} // Local or remote image uri.
-        loadingIndicatorSource={'./path/to/your/loading-indicator'} // Not required. Default is a "shimmer animation".
-      />
+      <div>
+        <ShimmerImage 
+          src={'https://example.com/test.jpg'}
+          width={120} height={120} // You MUST provide w/h.
+          style={{objectFit: 'cover'}} // Style your <img> as you would normally do.
+          delay={25}
+        />
+      </div>
     )
   }
 }
 ```
+
+### Properties
+
+Property | Type | Required | Default value | Description
+:--- | :--- | :--- | :--- | :---
+src|string|yes||
+color|string|no|| Background color of the loader.
+duration|number|no|| Animation duration.
+width|number|yes||
+height|number|yes||
+style|object|no||
+onError|func|no||
+onLoad|func|no||
+loadingIndicatorSource|string|no||
+delay|number|no|| Delay the starting time of the animation. (ms)
+-----
 
 ## License
 
