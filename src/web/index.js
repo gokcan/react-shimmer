@@ -1,6 +1,8 @@
 // flow
 /**
  * @class ShimmerImage
+ * @version 0.1.0 (Initial development)
+ * @author github.com/gokcan
  */
 
 import React, { Component } from 'react'
@@ -115,8 +117,10 @@ export default class ShimmerImage extends Component<Props, State> {
       } else {
         return (<div className={cl.shimmer} style={{ ...shimmerStyles, ...{ height, width } }} />)
       }
-    } else {
+    } else if (src) {
       return <img {...passedProps} style={{ ...passedStyles }} />
     }
+
+    return null
   }
 }
