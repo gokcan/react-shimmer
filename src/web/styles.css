@@ -1,24 +1,23 @@
-.shimmering {
-  background: #f6f7f8;
-  background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  animation-duration: 1.2s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: shimmering;
-  animation-timing-function: ease-in-out;
-  position: relative;
- }
-
-@keyframes shimmering {
-  0% {
-    background-position: top right;
-  }
-  
-  100% {
-    background-position: top left; 
-  }
+.shimmer {
+	background: #f6f7f8;
+	background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	background-size: 1000 100;
+	animation-duration: 1.6s;
+	animation-fill-mode: forwards;
+	animation-iteration-count: infinite;
+	animation-name: shimmering;
+	animation-timing-function: ease-in-out;
+	position: relative;
 }
 
+@keyframes shimmering {
+	0% {
+		background-position: top right;
+	}
 
+	100% {
+		background-position: top left;
+	}
+}
