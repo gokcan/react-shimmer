@@ -4,6 +4,8 @@
 
 [![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+<img src="https://media.giphy.com/media/1lwSA2rwDIhmT2VhiV/giphy.gif" width="466" height="254" />
+
 ## Install
 
 ```bash
