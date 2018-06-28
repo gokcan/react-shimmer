@@ -1,6 +1,6 @@
 # react-shimmer
 
-> A shared Image placeholder component that has a shimmer effect.
+> A powerful, customisable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while the image is __loading__. (with zero dependencies!) Currently compatible with React, but **RN** compatibility is also on the way.
 
 [![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -50,6 +50,10 @@ onLoad|func|no||
 loadingIndicatorSource|string|no||
 delay|number|no|| Delay the starting time of the animation. (ms)
 -----
+
+## Contributing
+---
+Feel free to send PRs. 
 
 ## License
 
