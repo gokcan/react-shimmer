@@ -1,27 +1,24 @@
-/* Currently the shimmering animation and dimensions are not parameterized */
-
-.shimmer {
-  margin: 20px auto;
-  background: #eaeced;
-  width: 400px;
-  height: 300px;
+.shimmering {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  animation-duration: 1.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmering;
+  animation-timing-function: ease-in-out;
   position: relative;
-  overflow: hidden;
-}
-
-.shimmerbg {
-  width: 300%;
-  height: 400%;
-  position: absolute;
-  top: -200%;
-  left: -150%;
-  transform: rotate(16deg);
-  animation: shimmering 2.5s ease infinite;
-  background: linear-gradient(to right, rgba(234,236,237,0) 0%,rgba(117,124,135,1) 31%,rgba(117,124,135,1) 31%,rgba(117,124,135,1) 50%,rgba(117,124,135,1) 69%,rgba(234,236,237,0) 100%);
-  
-}
+ }
 
 @keyframes shimmering {
-  from { left: -400%; }
-  to { left: 200%; }
+  0% {
+    background-position: top right;
+  }
+  
+  100% {
+    background-position: top left; 
+  }
 }
+
+
