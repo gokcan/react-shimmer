@@ -115,7 +115,8 @@ export default class ShimmerImage extends Component<Props, State> {
       if (loadingIndicatorSource) {
         return <img src={loadingIndicatorSource} />
       } else {
-        return (<div className={cl.shimmer} style={{ ...shimmerStyles, ...{ height, width } }} />)
+        return (
+          <span className={cl.shimmer} style={{ ...shimmerStyles, ...{height, width} }} />)
       }
     } else if (src) {
       return <img {...passedProps} style={{ ...passedStyles }} />

@@ -25,7 +25,7 @@ export default class App extends Component {
       <div>
         <ShimmerImage 
           src={'https://example.com/test.jpg'}
-          width={120} height={120} // You MUST provide w/h.
+          width={120} height={120} // You MUST provide width and height.
           style={{objectFit: 'cover'}} // Style your <img> as you would normally do.
           delay={25}
         />

@@ -9,7 +9,7 @@
 	animation-iteration-count: infinite;
 	animation-name: shimmering;
 	animation-timing-function: ease-in-out;
-	position: relative;
+	display: inline-block;
 }
 
 @keyframes shimmering {
