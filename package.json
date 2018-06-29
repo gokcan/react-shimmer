@@ -1,6 +1,6 @@
 {
   "name": "react-shimmer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A shared Image placeholder component that has a loading shimmer effect.",
   "author": "gokcan",
   "keywords": [
@@ -24,8 +24,7 @@
   "peerDependencies": {
     "prop-types": "^15.5.4",
     "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0",
-    "react-native": "^0.55.2"
+    "react-dom": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
