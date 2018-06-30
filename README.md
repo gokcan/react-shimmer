@@ -4,7 +4,7 @@
 
 [![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-<img src="https://media.giphy.com/media/1lwSA2rwDIhmT2VhiV/giphy.gif" width="466" height="254" />
+![](https://cdn.rawgit.com/gokcan/react-shimmer/master/media/rs-demo.gif)
 
 ## Install
 
@@ -25,9 +25,10 @@ export default class App extends Component {
       <div>
         <ShimmerImage 
           src={'https://example.com/test.jpg'}
-          width={120} height={120} // You MUST provide width and height.
+          width={120} height={120}
           style={{objectFit: 'cover'}} // Style your <img> as you would normally do.
           delay={25}
+          duration={0.9} // Customize the animation duration (s).
         />
       </div>
     )
@@ -39,16 +40,16 @@ export default class App extends Component {
 
 Property | Type | Required | Default value | Description
 :--- | :--- | :--- | :--- | :---
-src|string|yes||
-color|string|no|| Background color of the loader.
-duration|number|no|| Animation duration.
-width|number|yes||
-height|number|yes||
-style|object|no||
-onError|func|no||
-onLoad|func|no||
-loadingIndicatorSource|string|no||
-delay|number|no|| Delay the starting time of the animation. (ms)
+`src`|string|yes||
+`color`|string|no|`#f6f7f8`| Background color of the loader.
+`duration`|number|no|`1.6`| Animation duration (s) Higher value == slower animation. 
+`width`|number|yes||
+`height`|number|yes||
+`style`|object|no||
+`onError`|func|no||
+`onLoad`|func|no||
+`loadingIndicatorSource`|string|no||
+`delay`|number|no|| Delay the starting time of the animation. (ms)
 -----
 
 ## Contributing
