@@ -1,10 +1,19 @@
 {
   "name": "react-shimmer",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "A shared Image placeholder component that has a loading shimmer effect.",
   "author": "gokcan",
   "keywords": [
-    "react", "loading-indicator", "shimmer", "placeholder", "react-image"
+    "react",
+    "react-component",
+    "reactjs", 
+    "loader", 
+    "loading-indicator",
+    "shimmer",
+    "activity-indicator",
+    "placeholder",
+    "spinner",
+    "react-image"
   ],
   "license": "MIT",
   "repository": "gokcan/react-shimmer",
