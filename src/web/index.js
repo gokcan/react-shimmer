@@ -1,7 +1,7 @@
 // flow
 /**
  * @class ShimmerImage
- * @version 0.1.0 (Initial development)
+ * @version 0.1.3 (Initial development)
  * @author github.com/gokcan
  */
 
@@ -48,7 +48,7 @@ export default class ShimmerImage extends Component<Props, State> {
     error: ''
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { src, delay, width, height } = this.props
     if (!(width && height)) {
       this.setState({ error: 'Height and Width props must be provided!' })
@@ -77,17 +77,23 @@ export default class ShimmerImage extends Component<Props, State> {
     }
   }
 
-  loadImage = (uri: string) => {
+  loadImage = async (uri: string) => {
     const { onLoad } = this.props
     return new Promise((resolve, reject) => {
       const img: Image = new Image()
       img.src = uri
-      img.onload = () => {
-        if (onLoad) {
-          onLoad(img)
+
+      img.decode !== undefined
+        ? img.decode().then(() => {
+          resolve(img.src)
+          if (onLoad) onLoad(img)
+        }).catch(() => {
+          reject(new Error('An Error occurred while trying to decode an image'))
+        })
+        : img.onload = () => {
+          resolve(img.src)
+          if (onLoad) onLoad(img)
         }
-        resolve(uri)
-      }
       img.onerror = () => {
         reject(new Error('An Error occurred while trying to download an image'))
       }
@@ -104,9 +110,7 @@ export default class ShimmerImage extends Component<Props, State> {
     const shimmerStyles = {
       backgroundColor: color,
       backgroundSize,
-      animationDuration: duration,
-      width: '100%',
-      height: '100%'
+      animationDuration: `${duration}s`
     }
 
     if (error) {
@@ -116,7 +120,9 @@ export default class ShimmerImage extends Component<Props, State> {
         return <img src={loadingIndicatorSource} />
       } else {
         return (
-          <span className={cl.shimmer} style={{ ...shimmerStyles, ...{height, width} }} />)
+          <div className={cl.shimmerdiv} style={{...passedStyles}}>
+            <span className={cl.shimmer} style={{...shimmerStyles, ...{height, width}}} />
+          </div>)
       }
     } else if (src) {
       return <img {...passedProps} style={{ ...passedStyles }} />
