@@ -4,6 +4,8 @@
 
 [![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+### [__Live Demo__](https://stackblitz.com/edit/react-shimmer-demo?embed=1&file=index.js)
+
 ![](https://cdn.rawgit.com/gokcan/react-shimmer/master/media/rs-demo.gif)
 
 ## Install
