@@ -2,7 +2,7 @@
 
 > A powerful, customisable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while the image is __loading__. (with zero dependencies!) Currently compatible with React, but **RN** compatibility is also on the way.
 
-[![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
 ### [__Live Demo__](https://stackblitz.com/edit/react-shimmer-demo?embed=1&file=index.js)
 
