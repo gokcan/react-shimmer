@@ -1,17 +1,33 @@
-# react-shimmer
+<p align='center'> 
+  <img alt='Logo' src='https://cdn.rawgit.com/gokcan/react-shimmer/master/media/logo.png' width=40%>
+</p>
 
-> A powerful, customisable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while the image is __loading__. (with zero dependencies!) Currently compatible with React, but **RN** compatibility is also on the way.
+> A powerful, customisable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while __loading__. (with zero dependencies!) Currently compatible with React, but **RN** compatibility is also on the way.
 
-[![NPM](https://img.shields.io/npm/v/react-shimmer.svg)](https://www.npmjs.com/package/react-shimmer) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
+<p align="center">
+  <a href="https://www.npmjs.com/package/react-shimmer">
+    <img alt= "NPM" src="https://img.shields.io/npm/v/react-shimmer.svg">
+  </a>
+  <a href="https://standardjs.com">
+    <img alt="JavaScript Style Guide" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg">
+  </a>
+  <a href="https://codeclimate.com/github/gokcan/react-shimmer/maintainability">
+    <img alt= "Maintainability" src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability">
+  </a>
+</p>
+
+<p align="center">
+  <img alt="Header" src="https://cdn.rawgit.com/gokcan/react-shimmer/master/media/header.png" width=85%>
+</p>
 
 ### [__Live Demo__](https://stackblitz.com/edit/react-shimmer-demo?embed=1&file=index.js)
 
-![](https://cdn.rawgit.com/gokcan/react-shimmer/master/media/rs-demo.gif)
+![](https://cdn.rawgit.com/gokcan/react-shimmer/master/media/demo.gif)
 
 ## Install
 
 ```bash
-npm install --save react-shimmer
+npm i react-shimmer
 ```
 
 ## Usage
@@ -19,16 +35,16 @@ npm install --save react-shimmer
 ```jsx
 import React, { Component } from 'react'
 
-import ShimmerImage from 'react-shimmer'
+import Image from 'react-shimmer'
 
 export default class App extends Component {
   render () {
     return (
       <div>
-        <ShimmerImage 
+        <Image 
           src={'https://example.com/test.jpg'}
           width={120} height={120}
-          style={{objectFit: 'cover'}} // Style your <img> as you would normally do.
+          style={{objectFit: 'cover'}} // Style your <img> 
           delay={25}
           duration={0.9} // Customize the animation duration (s).
         />
