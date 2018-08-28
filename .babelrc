@@ -1,16 +1,16 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
       "modules": false
     }],
-    "stage-0",
-    "react",
-    "flow"
+    "@babel/preset-flow",
+    "@babel/preset-react"
   ],
   "plugins": [
-    "external-helpers",
-    ["transform-runtime", {
-      "polyfill": false,
+    "@babel/plugin-external-helpers",
+    "@babel/plugin-proposal-function-bind",
+    "@babel/plugin-proposal-class-properties",
+    ["@babel/plugin-transform-runtime", {
       "regenerator": true
     }]
   ]

@@ -1,7 +1,7 @@
-// flow
+// @flow
 /**
  * @class ShimmerImage
- * @version 0.1.3 (Initial development)
+ * @version 1.0.0 (First release)
  * @author github.com/gokcan
  */
 
