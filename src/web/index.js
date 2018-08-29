@@ -1,13 +1,14 @@
 // @flow
 /**
  * @class ShimmerImage
- * @version 1.0.0 (First release)
+ * @version 1.0.1 (Minor release)
  * @author github.com/gokcan
  */
 
 import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import cl from './styles.css'
+import 'regenerator-runtime/runtime'
 
 type Props = {
   src: string,

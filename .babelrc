@@ -1,17 +1,12 @@
 {
   "presets": [
     ["@babel/preset-env", {
-      "modules": false
     }],
     "@babel/preset-flow",
     "@babel/preset-react"
   ],
   "plugins": [
-    "@babel/plugin-external-helpers",
     "@babel/plugin-proposal-function-bind",
-    "@babel/plugin-proposal-class-properties",
-    ["@babel/plugin-transform-runtime", {
-      "regenerator": true
-    }]
+    "@babel/plugin-proposal-class-properties"
   ]
 }
