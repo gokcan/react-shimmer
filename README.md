@@ -11,6 +11,9 @@
   <a href="https://standardjs.com">
     <img alt="JavaScript Style Guide" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg">
   </a>
+  <a href="https://circleci.com/gh/gokcan/react-shimmer">
+    <img alt="Circle CI Status" src="https://circleci.com/gh/gokcan/react-shimmer.svg?style=shield">
+  </a>
   <a href="https://codeclimate.com/github/gokcan/react-shimmer/maintainability">
     <img alt= "Maintainability" src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability">
   </a>

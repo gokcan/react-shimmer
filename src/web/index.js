@@ -16,7 +16,7 @@ type Props = {
   duration?: number,
   width: number,
   height: number,
-  style?: React.CSSProperties,
+  style?: Object,
   onError?: (err: string) => void,
   onLoad?: (image: Image) => void,
   loadingIndicatorSource?: string,
@@ -83,7 +83,7 @@ export default class ShimmerImage extends Component<Props, State> {
     return new Promise((resolve, reject) => {
       const img: Image = new Image()
       img.src = uri
-
+      // $FlowFixMe
       img.decode !== undefined
         ? img.decode().then(() => {
           resolve(img.src)
@@ -111,6 +111,7 @@ export default class ShimmerImage extends Component<Props, State> {
     const shimmerStyles = {
       backgroundColor: color,
       backgroundSize,
+      // $FlowFixMe
       animationDuration: `${duration}s`
     }
 
