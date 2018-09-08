@@ -49,6 +49,8 @@ export default class ShimmerImage extends Component<Props, State> {
     error: ''
   };
 
+  timeoutId: ?TimeoutID = null;
+
   async componentDidMount() {
     const { src, delay, width, height } = this.props
     if (!(width && height)) {
@@ -61,7 +63,8 @@ export default class ShimmerImage extends Component<Props, State> {
      * However, given delay should be not more than 1 second. If it is just ignore it.
      */
     if (delay && delay > 0 && delay <= 1000) {
-      this.timeout = setTimeout(() => {
+      this.timeoutId = setTimeout(() => {
+        this.timeoutId = null
         if (!this.state.src) {
           this.setState({ isLoading: true })
         }
@@ -78,8 +81,12 @@ export default class ShimmerImage extends Component<Props, State> {
     }
   }
 
-  componentWillUnmount(){
-    clearTimeout(this.timeout);
+  componentWillUnmount() {
+    if (this.timeoutId) {
+      // The component might be cancelled(unmounted) before the 'delay' timeout finishes.
+      clearTimeout(this.timeoutId)
+      this.timeoutId = null
+    }
   }
 
   loadImage = async (uri: string) => {

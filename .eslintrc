@@ -17,5 +17,10 @@
   "rules": {
     "space-before-function-paren": 0,
     "import/first": 0
+  },
+  "globals": {
+    "TimeoutID": true,
+    "IntervalID": true,
+    "AnimationFrameID": true,
   }
 }
