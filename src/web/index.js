@@ -1,7 +1,7 @@
 // @flow
 /**
  * @class ShimmerImage
- * @version 1.0.1 (Minor release)
+ * @version 1.2.0
  * @author github.com/gokcan
  */
 
@@ -9,6 +9,8 @@ import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import cl from './styles.css'
 import 'regenerator-runtime/runtime'
+
+import IntendedError from './IntendedError'
 
 type Props = {
   src: string,
@@ -50,8 +52,29 @@ export default class ShimmerImage extends Component<Props, State> {
   };
 
   timeoutId: ?TimeoutID = null;
+  img = null;
+  forceReject = null;
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.startImageLoadingProcess()
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    const { src } = this.props
+    if (src && src !== prevProps.src) {
+      this.safeClearTimeout()
+      this.startImageLoadingProcess()
+    }
+  }
+
+  componentWillUnmount() {
+    // The component might be cancelled(unmounted) before the 'delay' timeout finishes.
+    this.safeClearTimeout()
+    this.forceReject = null
+    this.img = null
+  }
+
+  startImageLoadingProcess = async () => {
     const { src, delay, width, height } = this.props
     if (!(width && height)) {
       this.setState({ error: 'Height and Width props must be provided!' })
@@ -77,15 +100,10 @@ export default class ShimmerImage extends Component<Props, State> {
       const uri: string = await this.loadImage(src)
       this.setState({ isLoading: false, src: uri })
     } catch (error) {
-      this.setState({ error, isLoading: false })
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.timeoutId) {
-      // The component might be cancelled(unmounted) before the 'delay' timeout finishes.
-      clearTimeout(this.timeoutId)
-      this.timeoutId = null
+      // If this is a intended(forced) rejection, don't make it visible to user.
+      if (!(error instanceof IntendedError)) {
+        this.setState({ error, isLoading: false })
+      }
     }
   }
 
@@ -93,7 +111,15 @@ export default class ShimmerImage extends Component<Props, State> {
     const { onLoad } = this.props
     return new Promise((resolve, reject) => {
       const img: Image = new Image()
+      if (this.img) {
+        this.img.onload = null
+        this.img.onerror = null
+        // Previous promise call must be cancelled for decode().
+        this.forceReject && this.forceReject(new IntendedError())
+      }
+      this.img = img
       img.src = uri
+      this.forceReject = reject
       // $FlowFixMe
       img.decode !== undefined
         ? img.decode().then(() => {
@@ -110,6 +136,13 @@ export default class ShimmerImage extends Component<Props, State> {
         reject(new Error('An Error occurred while trying to download an image'))
       }
     })
+  }
+
+  safeClearTimeout() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = null
+    }
   }
 
   render() {
@@ -133,8 +166,8 @@ export default class ShimmerImage extends Component<Props, State> {
         return <img src={loadingIndicatorSource} />
       } else {
         return (
-          <div className={cl.shimmerdiv} style={{...passedStyles}}>
-            <span className={cl.shimmer} style={{...shimmerStyles, ...{height, width}}} />
+          <div className={cl.shimmerdiv} style={{ ...passedStyles }}>
+            <span className={cl.shimmer} style={{ ...shimmerStyles, ...{ height, width } }} />
           </div>)
       }
     } else if (src) {
