@@ -160,6 +160,7 @@ export default class ShimmerImage extends Component<Props, State> {
     }
 
     if (error) {
+      // $FlowFixMe
       return onError ? onError(error) : null
     } else if (isLoading) {
       if (loadingIndicatorSource) {
