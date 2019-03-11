@@ -1,11 +1,11 @@
 // @flow
 /**
  * @class ShimmerImage
- * @version 1.2.0
+ * @version 2.0.0
  * @author github.com/gokcan
  */
 
-import React, { Component } from 'react'
+import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import cl from './styles.css'
 import 'regenerator-runtime/runtime'
@@ -21,7 +21,7 @@ type Props = {
   style?: Object,
   onError?: (err: string) => void,
   onLoad?: (image: Image) => void,
-  loadingIndicatorSource?: string,
+  fallback?: React.Element<*>,
   delay?: number,
 }
 
@@ -31,17 +31,17 @@ type State = {
   error?: string
 }
 
-export default class ShimmerImage extends Component<Props, State> {
+export default class ShimmerImage extends React.Component<Props, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
     color: PropTypes.string,
     duration: PropTypes.number,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
     style: PropTypes.object,
     onError: PropTypes.func,
     onLoad: PropTypes.func,
-    loadingIndicatorSource: PropTypes.string,
+    fallback: PropTypes.element,
     delay: PropTypes.number
   }
 
@@ -75,8 +75,8 @@ export default class ShimmerImage extends Component<Props, State> {
   }
 
   startImageLoadingProcess = async () => {
-    const { src, delay, width, height } = this.props
-    if (!(width && height)) {
+    const { src, delay, width, height, fallback } = this.props
+    if (!fallback && !(width & height)) {
       this.setState({ error: 'Height and Width props must be provided!' })
     }
     /*
@@ -147,7 +147,7 @@ export default class ShimmerImage extends Component<Props, State> {
 
   render() {
     const { src, error, isLoading } = this.state
-    const { width, height, color, duration, style, onError, loadingIndicatorSource, ...passed } = this.props
+    const { width, height, color, duration, style, onError, fallback, ...passed } = this.props
     const { ...passedStyles } = style
     const passedProps = { ...passed, ...{ src, width, height } }
     const backgroundSize = `${width * 10}px ${height}px`
@@ -156,15 +156,15 @@ export default class ShimmerImage extends Component<Props, State> {
       backgroundColor: color,
       backgroundSize,
       // $FlowFixMe
-      animationDuration: `${duration}s`
+      animationDuration: `${(duration / 1000).toFixed(1)}s`
     }
 
     if (error) {
       // $FlowFixMe
       return onError ? onError(error) : null
     } else if (isLoading) {
-      if (loadingIndicatorSource) {
-        return <img src={loadingIndicatorSource} />
+      if (fallback) {
+        return fallback
       } else {
         return (
           <div className={cl.shimmerdiv} style={{ ...passedStyles }}>

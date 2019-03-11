@@ -33,27 +33,47 @@
 npm i react-shimmer
 ```
 
+or
+
+```bash
+yarn add react-shimmer
+```
+
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
-
+import React from 'react'
 import Image from 'react-shimmer'
 
-export default class App extends Component {
-  render () {
-    return (
-      <div>
-        <Image 
-          src={'https://example.com/test.jpg'}
-          width={120} height={120}
-          style={{objectFit: 'cover'}} // Style your <img> 
-          delay={25}
-          duration={0.9} // Customize the animation duration (s).
-        />
-      </div>
-    )
-  }
+function App(props) {
+  return (
+    <div>
+      <Image
+        src="https://example.com/test.jpg"
+        width={640} height={480}
+        style={{ objectFit: 'cover' }}
+      />
+    </div>
+  )
+}
+```
+
+or you can use the `fallback` prop:
+
+```jsx
+import React from 'react'
+import Image from 'react-shimmer'
+import Spinner from './Spinner'
+
+function App(props) {
+  return (
+    <div>
+      <Image
+        src="https://example.com/test.jpg"
+        fallback={<Spinner />}
+      />
+    </div>
+  )
 }
 ```
 
@@ -63,19 +83,20 @@ Property | Type | Required | Default value | Description
 :--- | :--- | :--- | :--- | :---
 `src`|string|yes||
 `color`|string|no|`#f6f7f8`| Background color of the loader.
-`duration`|number|no|`1.6`| Animation duration (s) Higher value == slower animation. 
-`width`|number|yes||
-`height`|number|yes||
+`duration`|number|no|`1600`| Animation duration (ms) Higher value == slower animation.
+`width`|number|yes (no if `fallback` is present)||
+`height`|number|yes (no if `fallback` is present)||
 `style`|object|no||
 `onError`|func|no||
 `onLoad`|func|no||
-`loadingIndicatorSource`|string|no||
+`fallback`|React.Element|no||
 `delay`|number|no|| Delay the starting time of the animation. (ms)
 -----
 
 ## Contributing
 ---
-Feel free to send PRs. 
+
+Feel free to send PRs.
 
 ## License
 
