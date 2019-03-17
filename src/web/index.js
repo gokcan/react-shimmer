@@ -76,7 +76,7 @@ export default class ShimmerImage extends React.Component<Props, State> {
 
   startImageLoadingProcess = async () => {
     const { src, delay, width, height, fallback } = this.props
-    if (!fallback && !(width & height)) {
+    if (!fallback && !(width && height)) {
       this.setState({ error: 'Height and Width props must be provided!' })
     }
     /*
