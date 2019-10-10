@@ -2,7 +2,7 @@
   <img alt='Logo' src='https://cdn.rawgit.com/gokcan/react-shimmer/master/media/logo.png' width=40%>
 </p>
 
-> A powerful, customisable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while __loading__. (with zero dependencies!) Currently compatible with React, but **RN** compatibility is also on the way.
+> A powerful, customizable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while __loading__. (with zero dependencies!) Currently compatible with React, but **React Native** compatibility is also on the way.
 
 <p align="center">
   <a href="https://www.npmjs.com/package/react-shimmer">
