@@ -1,10 +1,5 @@
 {
   "env": {
-    "mocha": true
-  },
-  "globals": {
-    "expect": true,
-    "Image": false,
-    "XMLHttpRequest": false
+    "jest": true
   }
 }

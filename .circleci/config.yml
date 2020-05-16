@@ -21,6 +21,5 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run lint
-      - run: npm run flow
       - run: npm test
+

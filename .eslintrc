@@ -1,26 +1,33 @@
 {
-  "parser": "babel-eslint",
-  "extends": [
-    "standard",
-    "standard-react"
-  ],
   "env": {
+    "browser": true,
     "es6": true
   },
-  "plugins": [
-    "react"
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/react",
+    "plugin:@typescript-eslint/eslint-recommended"
   ],
-  "parserOptions": {
-    "sourceType": "module",
-    "allowImportExportEverywhere": true
-  },
-  "rules": {
-    "space-before-function-paren": 0,
-    "import/first": 0
-  },
   "globals": {
-    "TimeoutID": true,
-    "IntervalID": true,
-    "AnimationFrameID": true,
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

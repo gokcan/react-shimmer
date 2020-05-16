@@ -1,3 +1,7 @@
+.root {
+	display: inline-block;
+}
+
 .shimmer {
 	background: #f6f7f8;
 	background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
@@ -9,10 +13,6 @@
 	animation-iteration-count: infinite;
 	animation-name: shimmering;
 	animation-timing-function: ease-in-out;
-	display: inline-block;
-}
-
-.shimmerdiv {
 	display: inline-block;
 }
 

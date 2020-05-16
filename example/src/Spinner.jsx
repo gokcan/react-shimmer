@@ -1,5 +1,3 @@
-import React from "react";
+import React from 'react'
 
-export const Spinner = () => (
-  <p>Loading...</p>
-);
+export const Spinner = () => <span>Loading...</span>

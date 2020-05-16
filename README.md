@@ -1,8 +1,8 @@
-<p align='center'> 
+<p align='center'>
   <img alt='Logo' src='https://cdn.rawgit.com/gokcan/react-shimmer/master/media/logo.png' width=40%>
 </p>
 
-> A powerful, customisable, `<img>` component that simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while __loading__. (with zero dependencies!) Currently compatible with React, but **RN** compatibility is also on the way.
+> A powerful, customisable, Suspense-like `<img>` component that (optionally) simulates a [**shimmer**](https://github.com/facebook/Shimmer) effect while __loading__. (with zero dependencies!).
 
 <p align="center">
   <a href="https://www.npmjs.com/package/react-shimmer">
@@ -43,26 +43,26 @@ yarn add react-shimmer
 
 ```jsx
 import React from 'react'
-import Image from 'react-shimmer'
+import Image, { Shimmer } from 'react-shimmer'
 
-function App(props) {
+function App() {
   return (
     <div>
       <Image
-        src="https://example.com/test.jpg"
-        width={640} height={480}
-        style={{ objectFit: 'cover' }}
+        src='https://source.unsplash.com/random/800x600'
+        fallback={<Shimmer width={800} height={600} />}
       />
     </div>
   )
 }
 ```
 
-or you can use the `fallback` prop:
+or you can use your custom React component as a fallback:
 
 ```jsx
 import React from 'react'
 import Image from 'react-shimmer'
+
 import Spinner from './Spinner'
 
 function App(props) {
@@ -82,15 +82,11 @@ function App(props) {
 Property | Type | Required | Default value | Description
 :--- | :--- | :--- | :--- | :---
 `src`|string|yes||
-`color`|string|no|`#f6f7f8`| Background color of the loader.
-`duration`|number|no|`1600`| Animation duration (ms) Higher value == slower animation.
-`width`|number|yes (no if `fallback` is present)||
-`height`|number|yes (no if `fallback` is present)||
-`style`|object|no||
-`onError`|func|no||
+`fallback`|ReactNode|yes||
+`errorFallback`|func|no||
 `onLoad`|func|no||
-`fallback`|React.Element|no||
-`delay`|number|no|| Delay the starting time of the animation. (ms)
+`delay`|number|no|| Delay in milliseconds before showing the `fallback`
+`NativeImgProps`|React.ImgHTMLAttributes<HTMLImageElement>|no||
 -----
 
 ## Contributing
