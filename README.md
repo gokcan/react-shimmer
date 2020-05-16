@@ -11,7 +11,7 @@
   <a href="https://standardjs.com">
     <img alt="JavaScript Style Guide" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg">
   </a>
-  <a href="https://github.com/gokcan/react-shimmer/workflows/Node.js%20CI">
+  <a href="https://github.com/gokcan/react-shimmer/actions?query=workflow%3A%22Node.js+CI%22">
     <img alt="Github Actions CI Status" src="https://github.com/gokcan/react-shimmer/workflows/Node.js%20CI/badge.svg?branch=master">
   </a>
   <a href="https://codeclimate.com/github/gokcan/react-shimmer/maintainability">
