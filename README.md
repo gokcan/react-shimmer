@@ -11,8 +11,8 @@
   <a href="https://standardjs.com">
     <img alt="JavaScript Style Guide" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg">
   </a>
-  <a href="https://circleci.com/gh/gokcan/react-shimmer">
-    <img alt="Circle CI Status" src="https://circleci.com/gh/gokcan/react-shimmer.svg?style=shield">
+  <a href="https://github.com/gokcan/react-shimmer/workflows/Node.js%20CI">
+    <img alt="Github Actions CI Status" src="https://github.com/gokcan/react-shimmer/workflows/Node.js%20CI/badge.svg?branch=master">
   </a>
   <a href="https://codeclimate.com/github/gokcan/react-shimmer/maintainability">
     <img alt= "Maintainability" src="https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability">
@@ -20,7 +20,7 @@
 </p>
 
 <p align="center">
-  <img alt="Header" src="https://cdn.rawgit.com/gokcan/react-shimmer/master/media/header.png" width=85%>
+  <img alt="Header" src="https://cdn.rawgit.com/gokcan/react-shimmer/master/media/header.png" width=60%>
 </p>
 
 ### [__Live Demo__](https://stackblitz.com/edit/react-shimmer-demo?embed=1&file=index.js)
