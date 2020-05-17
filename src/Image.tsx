@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.0.0
+ * @version 3.0.1
  * @author github.com/gokcan
  */
 
@@ -64,9 +64,9 @@ export default class SuspenseImage extends React.Component<Props, State> {
   }
 
   startImageLoadingProcess = async () => {
-    const { src, delay = 100, fallback } = this.props
-    if (!fallback) {
-      this.setState({ error: 'Fallback must be provided.' })
+    const { src, fallback, delay } = this.props
+    if (!src || !fallback) {
+      this.setState({ error: 'src and fallback props must be provided.' })
     }
     /*
      * To avoid instant loading 'flash' while downloading images with high-speed internet connection
@@ -76,7 +76,7 @@ export default class SuspenseImage extends React.Component<Props, State> {
     if (delay && delay > 0) {
       this.timeoutId = setTimeout(() => {
         this.timeoutId = undefined
-        if (!this.state.src) {
+        if (!this.state.src && !this.state.error) {
           this.setState({ isLoading: true })
         }
       }, delay)
@@ -88,7 +88,7 @@ export default class SuspenseImage extends React.Component<Props, State> {
       const uri: string = await this.loadImage(src)
       this.setState({ isLoading: false, src: uri })
     } catch (error) {
-      // If this is a intended(forced) rejection, don't make it visible to user.
+      // If this is an intended(forced) rejection, don't make it visible to user.
       if (!(error instanceof IntendedError)) {
         this.setState({ error, isLoading: false })
       }
