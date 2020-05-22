@@ -4,7 +4,7 @@
  * @author github.com/gokcan
  */
 
-import React, { ReactNode } from 'react'
+import React, { ReactNode, ImgHTMLAttributes, Component } from 'react'
 import PropTypes from 'prop-types'
 
 import IntendedError from './IntendedError'
@@ -15,7 +15,7 @@ interface Props {
   errorFallback?: (err: string) => ReactNode
   onLoad?: (image: any) => any
   delay?: number
-  NativeImgProps?: React.ImgHTMLAttributes<HTMLImageElement>
+  NativeImgProps?: ImgHTMLAttributes<HTMLImageElement>
 }
 
 interface State {
@@ -24,7 +24,7 @@ interface State {
   error?: string
 }
 
-export default class SuspenseImage extends React.Component<Props, State> {
+export default class SuspenseImage extends Component<Props, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
     fallback: PropTypes.element.isRequired,
