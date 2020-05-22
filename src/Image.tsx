@@ -141,9 +141,13 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
     if (isLoading) {
       return fallback
-    } else if (error) {
+    }
+
+    if (error) {
       return errorFallback ? errorFallback(error) : <span>Failed to load image</span>
-    } else if (src) {
+    }
+
+    if (src) {
       return <img src={src} {...NativeImgProps} />
     }
 
