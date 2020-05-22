@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.0.1
+ * @version 3.0.2
  * @author github.com/gokcan
  */
 
@@ -52,7 +52,7 @@ export default class SuspenseImage extends React.Component<Props, State> {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
-      this.startImageLoadingProcess()
+      this.setState({ src: '', error: '', isLoading: false }, () => this.startImageLoadingProcess())
     }
   }
 
@@ -66,7 +66,10 @@ export default class SuspenseImage extends React.Component<Props, State> {
   startImageLoadingProcess = async () => {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
-      this.setState({ error: 'src and fallback props must be provided.' })
+      const errorMessage = 'src and fallback props must be provided.'
+      console.error(errorMessage)
+      this.setState({ error: errorMessage })
+      return
     }
     /*
      * To avoid instant loading 'flash' while downloading images with high-speed internet connection
@@ -106,8 +109,9 @@ export default class SuspenseImage extends React.Component<Props, State> {
         this.forceReject && this.forceReject(new IntendedError())
       }
       this.img = img
-      img.src = uri
       this.forceReject = reject
+
+      img.src = uri
       img.decode !== undefined
         ? img
             .decode()
@@ -142,7 +146,13 @@ export default class SuspenseImage extends React.Component<Props, State> {
     if (isLoading) {
       return fallback
     } else if (error) {
-      return errorFallback ? errorFallback(error) : <span>Failed to load image</span>
+      return errorFallback ? (
+        errorFallback(error)
+      ) : (
+        <span role='button' aria-label='Image failed to load'>
+          ❌
+        </span>
+      )
     } else if (src) {
       return <img src={src} {...NativeImgProps} />
     }
