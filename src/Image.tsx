@@ -98,7 +98,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   private loadImage = async (uri: string): Promise<string> => {
     const { onLoad } = this.props
     return new Promise((resolve, reject) => {
-      const img: HTMLImageElement = new Image()
+      const img = new Image()
       if (this.img) {
         this.img.onload = null
         this.img.onerror = null
@@ -108,23 +108,27 @@ export default class SuspenseImage extends Component<ImageProps, State> {
       this.img = img
       img.src = uri
       this.forceReject = reject
-      img.decode !== undefined
-        ? img
-            .decode()
-            .then(() => {
-              resolve(img.src)
-              if (onLoad) onLoad(img)
-            })
-            .catch(() => {
-              reject(new Error('An Error occurred while trying to decode an image'))
-            })
-        : (img.onload = () => {
-            resolve(img.src)
-            if (onLoad) onLoad(img)
-          })
-      img.onerror = () => {
-        reject(new Error('An Error occurred while trying to download an image'))
+
+      const onResolve = () => {
+        resolve(img.src)
+
+        if (onLoad) {
+          onLoad(img)
+        }
       }
+
+      const onError = () => {
+        reject(new Error('An Error occurred while trying to decode an image'))
+      }
+
+      if (img.decode !== undefined) {
+        img.decode().then(onResolve).catch(onError)
+
+        return
+      }
+
+      img.onload = onResolve
+      img.onerror = onError
     })
   }
 
