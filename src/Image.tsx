@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 import IntendedError from './IntendedError'
 
-interface Props {
+export interface ImageProps {
   src: string
   fallback: ReactNode
   errorFallback?: (err: string) => ReactNode
@@ -24,7 +24,7 @@ interface State {
   error?: string
 }
 
-export default class SuspenseImage extends Component<Props, State> {
+export default class SuspenseImage extends Component<ImageProps, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
     fallback: PropTypes.element.isRequired,
@@ -48,7 +48,7 @@ export default class SuspenseImage extends Component<Props, State> {
     this.startImageLoadingProcess()
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: ImageProps) {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
