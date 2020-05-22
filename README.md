@@ -23,7 +23,7 @@
   <img alt="Header" src="https://cdn.rawgit.com/gokcan/react-shimmer/master/media/header.png" width=60%>
 </p>
 
-### [__Live Demo__](https://stackblitz.com/edit/react-shimmer-demo?embed=1&file=index.js)
+### [__Live Demo__](https://codesandbox.io/s/nh9x1)
 
 ![](https://cdn.rawgit.com/gokcan/react-shimmer/master/media/demo.gif)
 
