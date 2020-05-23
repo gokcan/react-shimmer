@@ -5,6 +5,7 @@
  */
 
 import React, { ReactNode, ImgHTMLAttributes, Component } from 'react'
+import PropTypes from 'prop-types'
 
 import IntendedError from './IntendedError'
 
@@ -24,6 +25,15 @@ interface State {
 }
 
 export default class SuspenseImage extends Component<ImageProps, State> {
+  static propTypes = {
+    src: PropTypes.string.isRequired,
+    fallback: PropTypes.element.isRequired,
+    errorFallback: PropTypes.func,
+    onLoad: PropTypes.func,
+    delay: PropTypes.number,
+    NativeImgProps: PropTypes.object
+  }
+
   state: State = {
     isLoading: false,
     src: '',
