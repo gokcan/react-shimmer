@@ -37,7 +37,6 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -81,5 +80,9 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "clsx": "^1.1.0",
+    "prop-types": "^15.7.2"
+  }
 }
