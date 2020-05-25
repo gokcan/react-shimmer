@@ -4,18 +4,18 @@
  * @author github.com/gokcan
  */
 
-import React, { ReactNode } from 'react'
+import React, { ReactNode, ImgHTMLAttributes, Component } from 'react'
 import PropTypes from 'prop-types'
 
 import IntendedError from './IntendedError'
 
-interface Props {
+export interface ImageProps {
   src: string
   fallback: ReactNode
   errorFallback?: (err: string) => ReactNode
   onLoad?: (image: any) => any
   delay?: number
-  NativeImgProps?: React.ImgHTMLAttributes<HTMLImageElement>
+  NativeImgProps?: ImgHTMLAttributes<HTMLImageElement>
 }
 
 interface State {
@@ -24,7 +24,7 @@ interface State {
   error?: string
 }
 
-export default class SuspenseImage extends React.Component<Props, State> {
+export default class SuspenseImage extends Component<ImageProps, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
     fallback: PropTypes.element.isRequired,
@@ -48,7 +48,7 @@ export default class SuspenseImage extends React.Component<Props, State> {
     this.startImageLoadingProcess()
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: ImageProps) {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
@@ -99,7 +99,6 @@ export default class SuspenseImage extends React.Component<Props, State> {
   }
 
   private loadImage = async (uri: string): Promise<string> => {
-    const { onLoad } = this.props
     return new Promise((resolve, reject) => {
       const img: HTMLImageElement = new Image()
       if (this.img) {
@@ -111,25 +110,24 @@ export default class SuspenseImage extends React.Component<Props, State> {
       this.img = img
       this.forceReject = reject
 
-      img.src = uri
-      img.decode !== undefined
-        ? img
-            .decode()
-            .then(() => {
-              resolve(img.src)
-              if (onLoad) onLoad(img)
-            })
-            .catch(() => {
-              reject(new Error('An Error occurred while trying to decode an image'))
-            })
-        : (img.onload = () => {
-            resolve(img.src)
-            if (onLoad) onLoad(img)
-          })
-      img.onerror = () => {
+      const onResolve = async () => {
+        if (img.decode !== undefined) {
+          try {
+            await img.decode()
+          } catch(e) {
+            reject(new Error('An Error occurred while trying to decode an image'))
+          }
+        }
+        resolve(img.src)
+      }
+
+      const onReject = () => {
         reject(new Error('An Error occurred while trying to download an image'))
       }
-    })
+
+      img.onload = onResolve
+      img.onerror = onReject
+      img.src = uri
   }
 
   safeClearTimeout() {
