@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.0.2
+ * @version 3.0.3
  * @author github.com/gokcan
  */
 
