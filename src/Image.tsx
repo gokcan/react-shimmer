@@ -13,7 +13,7 @@ export interface ImageProps {
   src: string
   fallback: ReactNode
   errorFallback?: (err: string) => ReactNode
-  onLoad?: (image: any) => any
+  onLoad?: (image: HTMLImageElement) => any
   delay?: number
   NativeImgProps?: ImgHTMLAttributes<HTMLImageElement>
 }
@@ -44,7 +44,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
   timeoutId?: NodeJS.Timeout
   img?: HTMLImageElement
-  forceReject?: any
+  forceReject?: (reason: Error) => void
 
   componentDidMount() {
     this.startImageLoadingProcess()
