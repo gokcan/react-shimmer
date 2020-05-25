@@ -1,21 +1,25 @@
 /**
  * @class SuspenseImage
- * @version 3.0.2
+ * @version 3.0.3
  * @author github.com/gokcan
  */
 
-import React, { ReactNode } from 'react'
+import React, { ReactNode, ImgHTMLAttributes, Component } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 import IntendedError from './IntendedError'
 
-interface Props {
+import './anims/anims.css'
+
+export interface ImageProps {
   src: string
   fallback: ReactNode
   errorFallback?: (err: string) => ReactNode
-  onLoad?: (image: any) => any
+  onLoad?: (image: HTMLImageElement) => any
   delay?: number
-  NativeImgProps?: React.ImgHTMLAttributes<HTMLImageElement>
+  fadeIn?: boolean
+  NativeImgProps?: ImgHTMLAttributes<HTMLImageElement>
 }
 
 interface State {
@@ -24,35 +28,38 @@ interface State {
   error?: string
 }
 
-export default class SuspenseImage extends React.Component<Props, State> {
+const initialState = {
+  isLoading: false,
+  src: '',
+  error: ''
+}
+
+export default class SuspenseImage extends Component<ImageProps, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
     fallback: PropTypes.element.isRequired,
     errorFallback: PropTypes.func,
     onLoad: PropTypes.func,
     delay: PropTypes.number,
+    fadeIn: PropTypes.bool,
     NativeImgProps: PropTypes.object
   }
 
-  state: State = {
-    isLoading: false,
-    src: '',
-    error: ''
-  }
+  state: State = { ...initialState }
 
   timeoutId?: NodeJS.Timeout
   img?: HTMLImageElement
-  forceReject?: any
+  forceReject?: (reason: Error) => void
 
   componentDidMount() {
-    this.startImageLoadingProcess()
+    this.start()
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: ImageProps) {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
-      this.setState({ src: '', error: '', isLoading: false }, () => this.startImageLoadingProcess())
+      this.setState({ ...initialState }, () => this.start())
     }
   }
 
@@ -63,11 +70,13 @@ export default class SuspenseImage extends React.Component<Props, State> {
     this.img = undefined
   }
 
-  startImageLoadingProcess = async () => {
+  private start = async () => {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
       const errorMessage = 'src and fallback props must be provided.'
-      console.error(errorMessage)
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(errorMessage)
+      }
       this.setState({ error: errorMessage })
       return
     }
@@ -101,38 +110,42 @@ export default class SuspenseImage extends React.Component<Props, State> {
   private loadImage = async (uri: string): Promise<string> => {
     const { onLoad } = this.props
     return new Promise((resolve, reject) => {
-      const img: HTMLImageElement = new Image()
       if (this.img) {
         this.img.onload = null
         this.img.onerror = null
         // Previous promise call must be cancelled for decode().
         this.forceReject && this.forceReject(new IntendedError())
       }
+
+      const img = new Image()
       this.img = img
       this.forceReject = reject
 
-      img.src = uri
-      img.decode !== undefined
-        ? img
-            .decode()
-            .then(() => {
-              resolve(img.src)
-              if (onLoad) onLoad(img)
-            })
-            .catch(() => {
-              reject(new Error('An Error occurred while trying to decode an image'))
-            })
-        : (img.onload = () => {
-            resolve(img.src)
-            if (onLoad) onLoad(img)
-          })
-      img.onerror = () => {
+      const onResolve = async () => {
+        if (img.decode !== undefined) {
+          try {
+            await img.decode()
+          } catch (e) {
+            reject(new Error('An Error occurred while trying to decode an image'))
+          }
+        }
+        resolve(img.src)
+        if (onLoad) {
+          onLoad(img)
+        }
+      }
+
+      const onReject = () => {
         reject(new Error('An Error occurred while trying to download an image'))
       }
+
+      img.onload = onResolve
+      img.onerror = onReject
+      img.src = uri
     })
   }
 
-  safeClearTimeout() {
+  private safeClearTimeout() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
       this.timeoutId = undefined
@@ -141,7 +154,8 @@ export default class SuspenseImage extends React.Component<Props, State> {
 
   render() {
     const { src, error, isLoading } = this.state
-    const { fallback, errorFallback, NativeImgProps } = this.props
+    const { fallback, errorFallback, fadeIn, NativeImgProps } = this.props
+    const { className, ...stripClassname } = NativeImgProps || {}
 
     if (isLoading) {
       return fallback
@@ -154,7 +168,18 @@ export default class SuspenseImage extends React.Component<Props, State> {
         </span>
       )
     } else if (src) {
-      return <img src={src} {...NativeImgProps} />
+      return (
+        <img
+          src={src}
+          className={clsx(
+            {
+              fadein: fadeIn
+            },
+            className
+          )}
+          {...stripClassname}
+        />
+      )
     }
 
     return null

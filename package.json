@@ -1,6 +1,6 @@
 {
   "name": "react-shimmer",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "React Image (Suspense-like) Loader component that simulates a shimmer effect",
   "author": "gokcan",
   "keywords": [
@@ -37,7 +37,6 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -81,5 +80,9 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "clsx": "^1.1.0",
+    "prop-types": "^15.7.2"
+  }
 }
