@@ -63,7 +63,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     this.img = undefined
   }
 
-  startImageLoadingProcess = async () => {
+  private startImageLoadingProcess = async () => {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
       const errorMessage = 'src and fallback props must be provided.'
@@ -114,7 +114,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
         if (img.decode !== undefined) {
           try {
             await img.decode()
-          } catch(e) {
+          } catch (e) {
             reject(new Error('An Error occurred while trying to decode an image'))
           }
         }
@@ -128,9 +128,10 @@ export default class SuspenseImage extends Component<ImageProps, State> {
       img.onload = onResolve
       img.onerror = onReject
       img.src = uri
+    })
   }
 
-  safeClearTimeout() {
+  private safeClearTimeout() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
       this.timeoutId = undefined
