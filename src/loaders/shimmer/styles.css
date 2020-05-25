@@ -1,19 +1,13 @@
-.root {
-	display: inline-block;
+.shimmer {
+  background: #f6f7f8;
+	background-image: linear-gradient(to right, rgb(238, 238, 238) 8%, rgb(222, 222, 222) 18%,  rgb(238, 238, 238) 33%);
+  background-repeat: no-repeat;
+  animation: shimmering 1.6s forwards infinite ease-in-out, fadein 0.02s forwards;
 }
 
-.shimmer {
-	background: #f6f7f8;
-	background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-	background-repeat: no-repeat;
-	background-position: 0 0;
-	background-size: 1000 100;
-	animation-duration: 1.6s;
-	animation-fill-mode: forwards;
-	animation-iteration-count: infinite;
-	animation-name: shimmering;
-	animation-timing-function: ease-in-out;
-	display: inline-block;
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes shimmering {

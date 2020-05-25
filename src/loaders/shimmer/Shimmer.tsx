@@ -1,6 +1,6 @@
 import React from 'react'
 
-import cls from './styles.css'
+import './styles.css'
 
 export interface ShimmerProps {
   height: number
@@ -17,9 +17,5 @@ export const Shimmer = ({ duration, height = 400, width = 400 }: ShimmerProps) =
   const shimmerStyle = calcShimmerStyle(width, height, duration)
   const style = { ...shimmerStyle, ...{ height, width } }
 
-  return (
-    <div className={cls.root}>
-      <span className={cls.shimmer} style={style} />
-    </div>
-  )
+  return <span className='shimmer' style={style} />
 }

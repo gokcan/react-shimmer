@@ -11,7 +11,9 @@ export default [
       resolve(),
       external(),
       postcss({
-        modules: true
+        plugins: [],
+        minimize: true,
+        sourceMap: 'inline',
       }),
       commonjs(),
       typescript()
