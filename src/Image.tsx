@@ -100,7 +100,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
   private loadImage = async (uri: string): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const img: HTMLImageElement = new Image()
+      const img = new Image()
       if (this.img) {
         this.img.onload = null
         this.img.onerror = null
