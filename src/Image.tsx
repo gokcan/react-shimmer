@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.0.1
+ * @version 3.0.2
  * @author github.com/gokcan
  */
 
@@ -52,7 +52,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
-      this.startImageLoadingProcess()
+      this.setState({ src: '', error: '', isLoading: false }, () => this.startImageLoadingProcess())
     }
   }
 
@@ -66,7 +66,10 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   startImageLoadingProcess = async () => {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
-      this.setState({ error: 'src and fallback props must be provided.' })
+      const errorMessage = 'src and fallback props must be provided.'
+      console.error(errorMessage)
+      this.setState({ error: errorMessage })
+      return
     }
     /*
      * To avoid instant loading 'flash' while downloading images with high-speed internet connection
@@ -96,9 +99,8 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   }
 
   private loadImage = async (uri: string): Promise<string> => {
-    const { onLoad } = this.props
     return new Promise((resolve, reject) => {
-      const img = new Image()
+      const img: HTMLImageElement = new Image()
       if (this.img) {
         this.img.onload = null
         this.img.onerror = null
@@ -106,30 +108,26 @@ export default class SuspenseImage extends Component<ImageProps, State> {
         this.forceReject && this.forceReject(new IntendedError())
       }
       this.img = img
-      img.src = uri
       this.forceReject = reject
 
-      const onResolve = () => {
-        resolve(img.src)
-
-        if (onLoad) {
-          onLoad(img)
+      const onResolve = async () => {
+        if (img.decode !== undefined) {
+          try {
+            await img.decode()
+          } catch(e) {
+            reject(new Error('An Error occurred while trying to decode an image'))
+          }
         }
+        resolve(img.src)
       }
 
-      const onError = () => {
-        reject(new Error('An Error occurred while trying to decode an image'))
-      }
-
-      if (img.decode !== undefined) {
-        img.decode().then(onResolve).catch(onError)
-
-        return
+      const onReject = () => {
+        reject(new Error('An Error occurred while trying to download an image'))
       }
 
       img.onload = onResolve
-      img.onerror = onError
-    })
+      img.onerror = onReject
+      img.src = uri
   }
 
   safeClearTimeout() {
@@ -145,13 +143,15 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
     if (isLoading) {
       return fallback
-    }
-
-    if (error) {
-      return errorFallback ? errorFallback(error) : <span>Failed to load image</span>
-    }
-
-    if (src) {
+    } else if (error) {
+      return errorFallback ? (
+        errorFallback(error)
+      ) : (
+        <span role='button' aria-label='Image failed to load'>
+          ❌
+        </span>
+      )
+    } else if (src) {
       return <img src={src} {...NativeImgProps} />
     }
 
