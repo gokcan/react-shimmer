@@ -69,7 +69,9 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
       const errorMessage = 'src and fallback props must be provided.'
-      console.error(errorMessage)
+      if (process.env.NODE_ENV !== "production") {
+        console.error(errorMessage)
+      }
       this.setState({ error: errorMessage })
       return
     }
