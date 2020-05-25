@@ -6,8 +6,11 @@
 
 import React, { ReactNode, ImgHTMLAttributes, Component } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 import IntendedError from './IntendedError'
+
+import './anims/anims.css'
 
 export interface ImageProps {
   src: string
@@ -15,6 +18,7 @@ export interface ImageProps {
   errorFallback?: (err: string) => ReactNode
   onLoad?: (image: HTMLImageElement) => any
   delay?: number
+  fadeIn?: boolean
   NativeImgProps?: ImgHTMLAttributes<HTMLImageElement>
 }
 
@@ -37,6 +41,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     errorFallback: PropTypes.func,
     onLoad: PropTypes.func,
     delay: PropTypes.number,
+    fadeIn: PropTypes.bool,
     NativeImgProps: PropTypes.object
   }
 
@@ -69,7 +74,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
       const errorMessage = 'src and fallback props must be provided.'
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         console.error(errorMessage)
       }
       this.setState({ error: errorMessage })
@@ -103,7 +108,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   }
 
   private loadImage = async (uri: string): Promise<string> => {
-    const { onLoad } = this.props;
+    const { onLoad } = this.props
     return new Promise((resolve, reject) => {
       if (this.img) {
         this.img.onload = null
@@ -149,7 +154,8 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
   render() {
     const { src, error, isLoading } = this.state
-    const { fallback, errorFallback, NativeImgProps } = this.props
+    const { fallback, errorFallback, fadeIn, NativeImgProps } = this.props
+    const { className, ...stripClassname } = NativeImgProps || {}
 
     if (isLoading) {
       return fallback
@@ -162,7 +168,18 @@ export default class SuspenseImage extends Component<ImageProps, State> {
         </span>
       )
     } else if (src) {
-      return <img src={src} {...NativeImgProps} />
+      return (
+        <img
+          src={src}
+          className={clsx(
+            {
+              fadein: fadeIn
+            },
+            className
+          )}
+          {...stripClassname}
+        />
+      )
     }
 
     return null
