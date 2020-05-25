@@ -103,14 +103,16 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   }
 
   private loadImage = async (uri: string): Promise<string> => {
+    const { onLoad } = this.props;
     return new Promise((resolve, reject) => {
-      const img = new Image()
       if (this.img) {
         this.img.onload = null
         this.img.onerror = null
         // Previous promise call must be cancelled for decode().
         this.forceReject && this.forceReject(new IntendedError())
       }
+
+      const img = new Image()
       this.img = img
       this.forceReject = reject
 
@@ -123,6 +125,9 @@ export default class SuspenseImage extends Component<ImageProps, State> {
           }
         }
         resolve(img.src)
+        if (onLoad) {
+          onLoad(img)
+        }
       }
 
       const onReject = () => {
