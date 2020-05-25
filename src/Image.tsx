@@ -47,14 +47,14 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   forceReject?: (reason: Error) => void
 
   componentDidMount() {
-    this.startImageLoadingProcess()
+    this.start()
   }
 
   componentDidUpdate(prevProps: ImageProps) {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
-      this.setState({ ...initialState }, () => this.startImageLoadingProcess())
+      this.setState({ ...initialState }, () => this.start())
     }
   }
 
@@ -65,7 +65,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     this.img = undefined
   }
 
-  private startImageLoadingProcess = async () => {
+  private start = async () => {
     const { src, fallback, delay } = this.props
     if (!src || !fallback) {
       const errorMessage = 'src and fallback props must be provided.'
