@@ -7,6 +7,7 @@ import './styles.css'
 const DEFAULT_DURATION_MS = 1600
 const DEFAULT_HEIGHT = 400
 const DEFAULT_WIDTH = 400
+
 export interface ShimmerProps {
   height: number
   width: number
