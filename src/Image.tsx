@@ -24,6 +24,12 @@ interface State {
   error?: string
 }
 
+const initialState = {
+  isLoading: false,
+  src: '',
+  error: ''
+}
+
 export default class SuspenseImage extends Component<ImageProps, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
@@ -34,11 +40,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     NativeImgProps: PropTypes.object
   }
 
-  state: State = {
-    isLoading: false,
-    src: '',
-    error: ''
-  }
+  state: State = { ...initialState }
 
   timeoutId?: NodeJS.Timeout
   img?: HTMLImageElement
@@ -52,7 +54,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     const { src } = this.props
     if (src && src !== prevProps.src) {
       this.safeClearTimeout()
-      this.setState({ src: '', error: '', isLoading: false }, () => this.startImageLoadingProcess())
+      this.setState({ ...initialState }, () => this.startImageLoadingProcess())
     }
   }
 
