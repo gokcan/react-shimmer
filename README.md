@@ -86,6 +86,7 @@ Property | Type | Required | Default value | Description
 `errorFallback`|func|no||
 `onLoad`|func|no||
 `delay`|number|no|| Delay in milliseconds before showing the `fallback`
+`fadeIn`|bool|no|false|Use built-in fade animation on img
 `NativeImgProps`|React.ImgHTMLAttributes<HTMLImageElement>|no||
 -----
 

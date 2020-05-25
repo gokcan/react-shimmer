@@ -1,4 +1,4 @@
-### Shimmer Loader
+### Shimmer Loader
 
 ## Usage
 
