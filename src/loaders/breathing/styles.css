@@ -1,0 +1,19 @@
+:root {
+  --default-bg-color: #e1e2e4;
+}
+
+.breathing {
+  width: 100%;
+  height: 100%;
+  background: var(--default-bg-color);
+  animation: breathing ease-in-out infinite alternate;
+}
+
+@keyframes breathing {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
