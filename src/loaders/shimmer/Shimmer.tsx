@@ -24,7 +24,7 @@ export const Shimmer = ({ className, duration, height = DEFAULT_HEIGHT, width = 
   const shimmerStyle = calcShimmerStyle(width, height, duration)
   const style = { ...shimmerStyle, ...{ height, width } }
 
-  return <span className={clsx('shimmer', className)} style={style} />
+  return <div className={clsx('shimmer', className)} style={style} />
 }
 
 Shimmer.propTypes = {
