@@ -98,7 +98,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
     try {
       const uri: string = await this.loadImage(src)
-      this.setState({ isLoading: true, src: uri })
+      this.setState({ isLoading: false, src: uri })
     } catch (error) {
       // If this is an intended(forced) rejection, don't make it visible to user.
       if (!(error instanceof IntendedError)) {
