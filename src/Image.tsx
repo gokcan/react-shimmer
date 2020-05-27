@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.0.3
+ * @version 3.1.0
  * @author github.com/gokcan
  */
 
@@ -98,7 +98,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
     try {
       const uri: string = await this.loadImage(src)
-      this.setState({ isLoading: false, src: uri })
+      this.setState({ isLoading: true, src: uri })
     } catch (error) {
       // If this is an intended(forced) rejection, don't make it visible to user.
       if (!(error instanceof IntendedError)) {
