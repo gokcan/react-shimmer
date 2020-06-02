@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.1.0
+ * @version 3.1.1
  * @author github.com/gokcan
  */
 
@@ -50,8 +50,10 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   timeoutId?: NodeJS.Timeout
   img?: HTMLImageElement
   forceReject?: (reason: Error) => void
+  _isMounted = false
 
   componentDidMount() {
+    this._isMounted = true
     this.start()
   }
 
@@ -64,10 +66,10 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   }
 
   componentWillUnmount() {
-    // The component might be cancelled(unmounted) before the 'delay' timeout finishes.
-    this.safeClearTimeout()
+    this._isMounted = false
     this.forceReject = undefined
     this.img = undefined
+    this.safeClearTimeout()
   }
 
   private start = async () => {
@@ -88,7 +90,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
     if (delay && delay > 0) {
       this.timeoutId = setTimeout(() => {
         this.timeoutId = undefined
-        if (!this.state.src && !this.state.error) {
+        if (!this.state.src && !this.state.error && this._isMounted) {
           this.setState({ isLoading: true })
         }
       }, delay)
@@ -98,10 +100,12 @@ export default class SuspenseImage extends Component<ImageProps, State> {
 
     try {
       const uri: string = await this.loadImage(src)
-      this.setState({ isLoading: false, src: uri })
+      if (this._isMounted) {
+        this.setState({ isLoading: false, src: uri })
+      }
     } catch (error) {
       // If this is an intended(forced) rejection, don't make it visible to user.
-      if (!(error instanceof IntendedError)) {
+      if (!(error instanceof IntendedError) && this._isMounted) {
         this.setState({ error, isLoading: false })
       }
     }
@@ -125,8 +129,10 @@ export default class SuspenseImage extends Component<ImageProps, State> {
         if (img.decode !== undefined) {
           try {
             await img.decode()
-          } catch (e) {
-            reject(new Error('An Error occurred while trying to decode an image'))
+          } catch (error) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.error('An Error occurred while trying to decode an image', error)
+            }
           }
         }
         resolve(img.src)
@@ -155,7 +161,7 @@ export default class SuspenseImage extends Component<ImageProps, State> {
   render() {
     const { src, error, isLoading } = this.state
     const { fallback, errorFallback, fadeIn, NativeImgProps } = this.props
-    const { className, ...stripClassname } = NativeImgProps || {}
+    const { className, ...stripClassname } = NativeImgProps || {}
 
     if (isLoading) {
       return fallback
