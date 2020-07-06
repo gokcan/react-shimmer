@@ -19,7 +19,7 @@ export interface ShimmerProps {
 
 const calcShimmerStyle = (width: number | string, height: number | string, duration = DEFAULT_DURATION_MS) => {
   let backgroundWidth = '0';
-  if (typeof width == 'string' && width != null) {
+  if (typeof width == 'string') {
     const number = width.match(/\d+/g) || [];
     if (number.length > 0) {
       backgroundWidth = `${Number(number[0]) * 10}%`;

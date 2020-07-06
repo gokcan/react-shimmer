@@ -1,5 +1,5 @@
 import React from 'react'
-import Image, { Shimmer } from 'react-shimmer';
+import Image, { Shimmer } from 'react-shimmer'
 
 export default function App() {
   return (
