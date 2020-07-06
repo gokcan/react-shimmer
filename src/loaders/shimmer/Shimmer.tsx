@@ -22,8 +22,7 @@ const calcShimmerStyle = (width: number | string, height: number | string, durat
   if (typeof width == 'string' && width != null) {
     const number = width.match(/\d+/g) || [];
     if (number.length > 0) {
-      const value = Number(number);
-      backgroundWidth = `${value * 10}%`;
+      backgroundWidth = `${Number(number[0]) * 10}%`;
     }
   }
   else {
