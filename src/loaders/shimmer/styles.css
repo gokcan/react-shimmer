@@ -5,7 +5,7 @@
 
 .shimmer {
   background: var(--default-bg-color);
-	background-image: var(--default-bg-moving-gradient);
+	/* background-image: var(--default-bg-moving-gradient); this property is commented because it will be passed as props */
   background-repeat: no-repeat;
   animation: shimmering forwards infinite ease-in-out, fadein 0.02s forwards;
 }
