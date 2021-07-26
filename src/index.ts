@@ -1,4 +1,4 @@
-export { default } from './Image'
+export { SuspenseImage as Image } from './Image'
 export type { ImageProps } from './Image'
 
 // Loaders

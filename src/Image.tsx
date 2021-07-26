@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.1.1
+ * @version 3.1.2
  * @author github.com/gokcan
  */
 
@@ -34,7 +34,7 @@ const initialState = {
   error: ''
 }
 
-export default class SuspenseImage extends Component<ImageProps, State> {
+export class SuspenseImage extends Component<ImageProps, State> {
   static propTypes = {
     src: PropTypes.string.isRequired,
     fallback: PropTypes.element.isRequired,
