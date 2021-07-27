@@ -1,23 +1,24 @@
 {
   "name": "react-shimmer-example",
-  "homepage": "https://gokcan.github.io/react-shimmer",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
   "license": "MIT",
-  "dependencies": {
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^1.1.5",
-    "react-shimmer": "^3.0.1"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "react-app-polyfill": "^1.0.0"
+  },
+  "alias": {
+    "react": "../node_modules/react",
+    "react-dom": "../node_modules/react-dom/profiling",
+    "scheduler/tracing": "../node_modules/scheduler/tracing-profiling"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.8.4",
+    "parcel": "^2.0.0-beta.2",
+    "typescript": "^3.4.5"
   }
 }

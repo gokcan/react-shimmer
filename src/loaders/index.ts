@@ -1,2 +1,2 @@
-export { Shimmer } from './shimmer/Shimmer'
-export { Breathing } from './breathing/Breathing'
+export { Shimmer, ShimmerProps } from './shimmer/Shimmer';
+export { Breathing, BreathingProps } from './breathing/Breathing';
