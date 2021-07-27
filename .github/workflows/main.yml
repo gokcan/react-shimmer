@@ -46,6 +46,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      
+      - name: Install
+        run: yarn install
 
       - name: Publish
         run: |
