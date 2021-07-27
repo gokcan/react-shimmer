@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { randomBytes } from 'crypto';
 
-import { Breathing, Image, Shimmer } from '../.';
+import { Image, Shimmer } from '../.';
 
 const getRandomSource = () =>
   `https://picsum.photos/2000/1440?q=${randomBytes(8).toString('hex')}`;

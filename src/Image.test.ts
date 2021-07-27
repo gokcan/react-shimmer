@@ -1,7 +1,7 @@
-import { Image } from './Image'
+import { Image } from './Image';
 
 describe('Image', () => {
   it('is truthy', () => {
-    expect(Image).toBeTruthy()
-  })
-})
+    expect(Image).toBeTruthy();
+  });
+});
