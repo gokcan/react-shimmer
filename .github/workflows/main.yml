@@ -1,4 +1,4 @@
-name: CI
+name: main
 on: [push]
 jobs:
   build:
@@ -30,3 +30,26 @@ jobs:
 
       - name: Build
         run: yarn build
+
+  publish:
+    name: Publish to npm if merged to master
+
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/master'
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Publish
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+          npm publish --ignore-scripts
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
