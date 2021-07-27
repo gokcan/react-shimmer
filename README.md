@@ -43,7 +43,7 @@ yarn add react-shimmer
 
 ```jsx
 import React from 'react'
-import Image, { Shimmer } from 'react-shimmer'
+import { Image, Shimmer } from 'react-shimmer'
 
 function App() {
   return (
@@ -57,11 +57,27 @@ function App() {
 }
 ```
 
+```jsx
+import React from 'react'
+import { Image, Breathing } from 'react-shimmer'
+
+function App() {
+  return (
+    <div>
+      <Image
+        src='https://source.unsplash.com/random/800x600'
+        fallback={<Breathing width={800} height={600} />}
+      />
+    </div>
+  )
+}
+```
+
 or you can use your custom React component as a fallback:
 
 ```jsx
 import React from 'react'
-import Image from 'react-shimmer'
+import { Image } from 'react-shimmer'
 
 import Spinner from './Spinner'
 
