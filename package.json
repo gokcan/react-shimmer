@@ -1,6 +1,6 @@
 {
   "name": "react-shimmer",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "React Image (Suspense-like) Loader component that simulates a shimmer effect",
   "author": "gokcan",
   "keywords": [
@@ -49,7 +49,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/react-shimmer-v3.esm.js",
+  "module": "dist/react-shimmer.esm.js",
   "dependencies": {
     "clsx": "^1.1.0",
     "prop-types": "^15.7.2"
