@@ -1,6 +1,6 @@
 /**
  * @class SuspenseImage
- * @version 3.1.3
+ * @version 3.2.0
  * @author github.com/gokcan
  */
 
@@ -24,13 +24,11 @@ export interface ImageProps {
 
 interface State {
   isLoading: boolean;
-  src: string;
   error?: string;
 }
 
-const initialState = {
+const initialState: State = {
   isLoading: false,
-  src: '',
   error: '',
 };
 
@@ -48,9 +46,10 @@ export class SuspenseImage extends Component<ImageProps, State> {
   state: State = { ...initialState };
 
   timeoutId?: NodeJS.Timeout;
-  img?: HTMLImageElement;
   forceReject?: (reason: Error) => void;
   _isMounted = false;
+
+  imgRef = React.createRef<HTMLImageElement>();
 
   componentDidMount() {
     this._isMounted = true;
@@ -61,6 +60,7 @@ export class SuspenseImage extends Component<ImageProps, State> {
     const { src } = this.props;
     if (src && src !== prevProps.src) {
       this.safeClearTimeout();
+      this.forceReject && this.forceReject(new IntendedError());
       this.setState({ ...initialState }, () => this.start());
     }
   }
@@ -68,7 +68,6 @@ export class SuspenseImage extends Component<ImageProps, State> {
   componentWillUnmount() {
     this._isMounted = false;
     this.forceReject = undefined;
-    this.img = undefined;
     this.safeClearTimeout();
   }
 
@@ -90,7 +89,7 @@ export class SuspenseImage extends Component<ImageProps, State> {
     if (delay && delay > 0) {
       this.timeoutId = setTimeout(() => {
         this.timeoutId = undefined;
-        if (!this.state.src && !this.state.error && this._isMounted) {
+        if (!this.state.error && this._isMounted) {
           this.setState({ isLoading: true });
         }
       }, delay);
@@ -98,31 +97,18 @@ export class SuspenseImage extends Component<ImageProps, State> {
       this.setState({ isLoading: true });
     }
 
-    try {
-      const uri: string = await this.loadImage(src);
-      if (this._isMounted) {
-        this.setState({ isLoading: false, src: uri });
-      }
-    } catch (error) {
-      // If this is an intended(forced) rejection, don't make it visible to user.
-      if (!(error instanceof IntendedError) && this._isMounted) {
-        this.setState({ error, isLoading: false });
-      }
-    }
+    this.tryLoadImage();
   };
 
-  private loadImage = async (uri: string): Promise<string> => {
+  private loadImage = async (): Promise<void> => {
+    const img = this.imgRef.current;
+
+    if (!img) {
+      return;
+    }
+
     const { onLoad } = this.props;
     return new Promise((resolve, reject) => {
-      if (this.img) {
-        this.img.onload = null;
-        this.img.onerror = null;
-        // Previous promise call must be cancelled for decode().
-        this.forceReject && this.forceReject(new IntendedError());
-      }
-
-      const img = new Image();
-      this.img = img;
       this.forceReject = reject;
 
       const onResolve = async () => {
@@ -138,7 +124,7 @@ export class SuspenseImage extends Component<ImageProps, State> {
             }
           }
         }
-        resolve(img.src);
+        resolve();
         if (onLoad) {
           onLoad(img);
         }
@@ -150,10 +136,27 @@ export class SuspenseImage extends Component<ImageProps, State> {
         );
       };
 
-      img.onload = onResolve;
+      if (img.complete) {
+        onResolve();
+      } else {
+        img.onload = onResolve;
+      }
       img.onerror = onReject;
-      img.src = uri;
     });
+  };
+
+  private tryLoadImage = async (): Promise<void> => {
+    try {
+      await this.loadImage();
+      if (this._isMounted) {
+        this.setState({ isLoading: false });
+      }
+    } catch (error) {
+      // If this is an intended(forced) rejection, don't make it visible to user.
+      if (!(error instanceof IntendedError) && this._isMounted) {
+        this.setState({ error, isLoading: false });
+      }
+    }
   };
 
   private safeClearTimeout() {
@@ -164,8 +167,8 @@ export class SuspenseImage extends Component<ImageProps, State> {
   }
 
   render() {
-    const { src, error, isLoading } = this.state;
-    const { fallback, errorFallback, fadeIn, NativeImgProps } = this.props;
+    const { error, isLoading } = this.state;
+    const { src, fallback, errorFallback, fadeIn, NativeImgProps } = this.props;
     const { className, ...stripClassname } = NativeImgProps || {};
 
     if (isLoading) {
@@ -181,14 +184,16 @@ export class SuspenseImage extends Component<ImageProps, State> {
     } else if (src) {
       return (
         <img
-          src={src}
+          {...stripClassname}
           className={clsx(
             {
               fadein: fadeIn,
             },
             className
           )}
-          {...stripClassname}
+          ref={this.imgRef}
+          decoding="async"
+          src={src}
         />
       );
     }
